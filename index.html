@@ -3,77 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Click Digital EC - Request a Quote</title>
     <style>
-        /* Modern & Clean Professional Theme */
-        body { 
+        /* Modern & Minimalist View */
+        body, html { 
             margin: 0; 
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+            padding: 0; 
+            height: 100%; 
+            width: 100%; 
+            overflow: hidden; 
             background-color: #ffffff; 
-            display: flex; 
-            flex-direction: column; 
-            height: 100vh; 
-            overflow: hidden;
-        }
-        
-        .header { 
-            background: #ffffff; 
-            padding: 25px 15px; 
-            text-align: center; 
-            border-bottom: 1px solid #e5e7eb; 
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05); 
-            z-index: 10;
-        }
-        
-        .header h1 { 
-            margin: 0; 
-            color: #111827; 
-            font-size: 26px; 
-            font-weight: 600;
-            letter-spacing: -0.5px;
-        }
-        
-        .header p { 
-            margin: 6px 0 0; 
-            color: #6b7280; 
-            font-size: 15px; 
         }
         
         .form-container { 
-            flex-grow: 1; 
-            position: relative; 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            right: 0; 
+            bottom: 0; 
             width: 100%; 
-            background-color: #f9fafb;
+            height: 100%; 
         }
         
         iframe { 
             width: 100%; 
             height: 100%; 
             border: none; 
-            position: absolute; 
-            top: 0; 
-            left: 0;
-        }
-
-        /* Mobile Optimization */
-        @media only screen and (max-width: 600px) {
-            .header {
-                padding: 20px 10px;
-            }
-            .header h1 {
-                font-size: 20px;
-            }
-            .header p {
-                font-size: 13px;
-            }
+            display: block;
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>Request a Quote</h1>
-        <p>Expert Solutions for Your Business Needs</p>
-    </div>
-    
     <div class="form-container">
         <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSeloXzqJaOk4N-OFbNr_pAT_qzh1pmYEFDQ0rqK8M6c1ZQ45Q/viewform?embedded=true">Loading...</iframe>
     </div>
