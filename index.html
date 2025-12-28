@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Click Digital EC - Request a Quote</title>
     
-    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="icon" type="image/png" href="logo.png?v=3">
+    <link rel="apple-touch-icon" href="logo.png?v=3">
 
     <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "6502aeafc8ac4c04a1fc215f2fdd1065"}'></script>
 
@@ -23,18 +24,17 @@
 
     <script>
         let originalTitle = document.title;
-        let alertTitle = "Don't forget us! 🚀";
+        let alertTitle = "⚠️ DON'T FORGET US! ⚠️";
         let titleInterval = null;
 
         window.addEventListener("blur", () => {
-            // Sekmeden ayrılınca yanıp sönmeye başlar
+            // Sekmeden ayrılınca her 0.5 saniyede bir başlık değişir (Daha hızlı)
             titleInterval = setInterval(() => {
                 document.title = (document.title === originalTitle) ? alertTitle : originalTitle;
-            }, 1000); // 1 saniyede bir değişir
+            }, 500); 
         });
 
         window.addEventListener("focus", () => {
-            // Sekmeye dönünce durur
             clearInterval(titleInterval);
             document.title = originalTitle;
         });
@@ -48,14 +48,14 @@
         /* Exit Intent Popup */
         #exitPopup {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(0,0,0,0.85); z-index: 10000; justify-content: center; align-items: center;
+            background: rgba(0,0,0,0.9); z-index: 10000; justify-content: center; align-items: center;
         }
         .popup-content {
             background: #fff; padding: 40px; border-radius: 20px; text-align: center; 
-            max-width: 400px; position: relative; border: 4px solid #2563eb;
+            max-width: 420px; position: relative; border: 5px solid #ff4b2b; /* Dikkat çekici kırmızı-turuncu border */
         }
-        .popup-close { position: absolute; top: 15px; right: 20px; cursor: pointer; font-size: 28px; color: #9ca3af; }
-        .popup-btn { background: #2563eb; color: white; border: none; padding: 14px 30px; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 20px; }
+        .popup-close { position: absolute; top: 15px; right: 20px; cursor: pointer; font-size: 30px; color: #9ca3af; }
+        .popup-btn { background: #ff4b2b; color: white; border: none; padding: 15px 35px; border-radius: 12px; font-weight: bold; cursor: pointer; margin-top: 25px; font-size: 18px; }
     </style>
 </head>
 <body>
@@ -67,19 +67,26 @@
     <div id="exitPopup">
         <div class="popup-content">
             <span class="popup-close" onclick="closePopup()">&times;</span>
-            <h2>Wait! Don't Fall Behind 🚀</h2>
-            <p>Your competitors are already optimizing their digital workflow. Don't let them stay ahead. Fill out the form now!</p>
-            <button class="popup-btn" onclick="closePopup()">I'm Ready to Lead</button>
+            <h2 style="font-size: 28px;">Wait! Don't Fall Behind 🚀</h2>
+            <p style="font-size: 18px;">Your competitors are already optimizing their digital workflow. Don't let them stay ahead. Fill out the form now!</p>
+            <button class="popup-btn" onclick="closePopup()">I'M READY TO LEAD</button>
         </div>
     </div>
 
     <script>
-        // Daha Hassas Exit Intent
+        // En Hassas Exit Intent (Tüm tarayıcı çıkışlarını yakalar)
         let popupShown = false;
         
-        // Kullanıcı fareyi sayfanın dışına (yukarı) doğru hızla çıkarırsa
-        document.addEventListener("mouseout", function(e) {
-            if (!e.relatedTarget && !e.toElement && !popupShown) {
+        document.addEventListener("mouseleave", function(e) {
+            if (e.clientY < 0 && !popupShown) {
+                document.getElementById("exitPopup").style.display = "flex";
+                popupShown = true;
+            }
+        });
+
+        // Alternatif yakalama (Hızlı fare hareketleri için)
+        document.body.addEventListener("mousemove", function(e) {
+            if (e.clientY < 20 && !popupShown) {
                 document.getElementById("exitPopup").style.display = "flex";
                 popupShown = true;
             }
