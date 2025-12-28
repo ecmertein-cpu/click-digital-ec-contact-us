@@ -22,106 +22,40 @@
     </script>
 
     <script>
-        let docTitle = document.title;
+        let originalTitle = document.title;
+        let alertTitle = "Don't forget us! 🚀";
+        let titleInterval = null;
+
         window.addEventListener("blur", () => {
-            document.title = "Don't forget us! 🚀";
+            // Sekmeden ayrılınca yanıp sönmeye başlar
+            titleInterval = setInterval(() => {
+                document.title = (document.title === originalTitle) ? alertTitle : originalTitle;
+            }, 1000); // 1 saniyede bir değişir
         });
+
         window.addEventListener("focus", () => {
-            document.title = docTitle;
+            // Sekmeye dönünce durur
+            clearInterval(titleInterval);
+            document.title = originalTitle;
         });
     </script>
 
     <style>
-        /* Genel Sayfa Düzeni */
-        body, html { 
-            margin: 0; 
-            padding: 0; 
-            height: 100%; 
-            width: 100%; 
-            overflow: hidden; 
-            background-color: #ffffff; 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        .form-container { 
-            position: absolute; 
-            top: 0; 
-            left: 0; 
-            right: 0; 
-            bottom: 0; 
-            width: 100%; 
-            height: 100%; 
-        }
-        
-        iframe { 
-            width: 100%; 
-            height: 100%; 
-            border: none; 
-            display: block;
-        }
+        body, html { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; background-color: #ffffff; font-family: 'Segoe UI', sans-serif; }
+        .form-container { position: absolute; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%; }
+        iframe { width: 100%; height: 100%; border: none; display: block; }
 
-        /* Exit Intent Popup Tasarımı */
+        /* Exit Intent Popup */
         #exitPopup {
-            display: none; 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            background: rgba(0,0,0,0.85); 
-            z-index: 10000; 
-            justify-content: center; 
-            align-items: center;
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.85); z-index: 10000; justify-content: center; align-items: center;
         }
-
         .popup-content {
-            background: #fff; 
-            padding: 40px; 
-            border-radius: 20px; 
-            text-align: center; 
-            max-width: 400px; 
-            position: relative; 
-            border: 4px solid #2563eb;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            background: #fff; padding: 40px; border-radius: 20px; text-align: center; 
+            max-width: 400px; position: relative; border: 4px solid #2563eb;
         }
-
-        .popup-content h2 { 
-            color: #111827; 
-            margin-top: 0; 
-            font-size: 24px;
-        }
-
-        .popup-content p { 
-            color: #4b5563; 
-            font-size: 16px; 
-            line-height: 1.6;
-        }
-
-        .popup-close {
-            position: absolute; 
-            top: 15px; 
-            right: 20px; 
-            cursor: pointer; 
-            font-size: 28px; 
-            color: #9ca3af;
-        }
-
-        .popup-btn {
-            background: #2563eb; 
-            color: white; 
-            border: none; 
-            padding: 14px 30px; 
-            border-radius: 10px; 
-            font-weight: bold; 
-            cursor: pointer; 
-            font-size: 16px; 
-            margin-top: 20px;
-            transition: background 0.3s;
-        }
-
-        .popup-btn:hover {
-            background: #1d4ed8;
-        }
+        .popup-close { position: absolute; top: 15px; right: 20px; cursor: pointer; font-size: 28px; color: #9ca3af; }
+        .popup-btn { background: #2563eb; color: white; border: none; padding: 14px 30px; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 20px; }
     </style>
 </head>
 <body>
@@ -134,19 +68,20 @@
         <div class="popup-content">
             <span class="popup-close" onclick="closePopup()">&times;</span>
             <h2>Wait! Don't Fall Behind 🚀</h2>
-            <p>Your competitors are already optimizing their digital workflow. Don't let them stay ahead. Fill out the form now to get your edge back!</p>
+            <p>Your competitors are already optimizing their digital workflow. Don't let them stay ahead. Fill out the form now!</p>
             <button class="popup-btn" onclick="closePopup()">I'm Ready to Lead</button>
         </div>
     </div>
 
     <script>
-        // Exit Intent Logic (Bilgisayarlar için)
+        // Daha Hassas Exit Intent
         let popupShown = false;
-        document.addEventListener("mouseleave", function(e) {
-            // Fare ekranın üstüne (sekme/kapatma kısmına) çıkarsa tetiklenir
-            if (e.clientY < 0 && !popupShown) {
+        
+        // Kullanıcı fareyi sayfanın dışına (yukarı) doğru hızla çıkarırsa
+        document.addEventListener("mouseout", function(e) {
+            if (!e.relatedTarget && !e.toElement && !popupShown) {
                 document.getElementById("exitPopup").style.display = "flex";
-                popupShown = true; 
+                popupShown = true;
             }
         });
 
@@ -154,6 +89,5 @@
             document.getElementById("exitPopup").style.display = "none";
         }
     </script>
-
 </body>
 </html>
