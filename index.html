@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Click Digital EC - Request a Quote</title>
     
+    <link rel="icon" type="image/png" href="logo.png">
+
     <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "6502aeafc8ac4c04a1fc215f2fdd1065"}'></script>
+
     <script type="text/javascript">
     var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
     (function(){
@@ -17,8 +20,19 @@
     s0.parentNode.insertBefore(s1,s0);
     })();
     </script>
+
+    <script>
+        let docTitle = document.title;
+        window.addEventListener("blur", () => {
+            document.title = "Don't forget us! 🚀";
+        });
+        window.addEventListener("focus", () => {
+            document.title = docTitle;
+        });
+    </script>
+
     <style>
-        /* Modern & Minimalist View */
+        /* Genel Sayfa Düzeni */
         body, html { 
             margin: 0; 
             padding: 0; 
@@ -26,6 +40,7 @@
             width: 100%; 
             overflow: hidden; 
             background-color: #ffffff; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         .form-container { 
@@ -44,11 +59,101 @@
             border: none; 
             display: block;
         }
+
+        /* Exit Intent Popup Tasarımı */
+        #exitPopup {
+            display: none; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(0,0,0,0.85); 
+            z-index: 10000; 
+            justify-content: center; 
+            align-items: center;
+        }
+
+        .popup-content {
+            background: #fff; 
+            padding: 40px; 
+            border-radius: 20px; 
+            text-align: center; 
+            max-width: 400px; 
+            position: relative; 
+            border: 4px solid #2563eb;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .popup-content h2 { 
+            color: #111827; 
+            margin-top: 0; 
+            font-size: 24px;
+        }
+
+        .popup-content p { 
+            color: #4b5563; 
+            font-size: 16px; 
+            line-height: 1.6;
+        }
+
+        .popup-close {
+            position: absolute; 
+            top: 15px; 
+            right: 20px; 
+            cursor: pointer; 
+            font-size: 28px; 
+            color: #9ca3af;
+        }
+
+        .popup-btn {
+            background: #2563eb; 
+            color: white; 
+            border: none; 
+            padding: 14px 30px; 
+            border-radius: 10px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            font-size: 16px; 
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+
+        .popup-btn:hover {
+            background: #1d4ed8;
+        }
     </style>
 </head>
 <body>
+
     <div class="form-container">
         <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSeloXzqJaOk4N-OFbNr_pAT_qzh1pmYEFDQ0rqK8M6c1ZQ45Q/viewform?embedded=true">Loading...</iframe>
     </div>
+
+    <div id="exitPopup">
+        <div class="popup-content">
+            <span class="popup-close" onclick="closePopup()">&times;</span>
+            <h2>Wait! Don't Fall Behind 🚀</h2>
+            <p>Your competitors are already optimizing their digital workflow. Don't let them stay ahead. Fill out the form now to get your edge back!</p>
+            <button class="popup-btn" onclick="closePopup()">I'm Ready to Lead</button>
+        </div>
+    </div>
+
+    <script>
+        // Exit Intent Logic (Bilgisayarlar için)
+        let popupShown = false;
+        document.addEventListener("mouseleave", function(e) {
+            // Fare ekranın üstüne (sekme/kapatma kısmına) çıkarsa tetiklenir
+            if (e.clientY < 0 && !popupShown) {
+                document.getElementById("exitPopup").style.display = "flex";
+                popupShown = true; 
+            }
+        });
+
+        function closePopup() {
+            document.getElementById("exitPopup").style.display = "none";
+        }
+    </script>
+
 </body>
 </html>
