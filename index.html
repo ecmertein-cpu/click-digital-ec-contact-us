@@ -26,17 +26,17 @@
         let alertTitle = "Don't forget us! 🚀";
         let titleInterval = null;
 
-        window.addEventListener("blur", () => {
-            // Sekmeden ayrılınca yanıp sönmeye başlar
-            titleInterval = setInterval(() => {
-                document.title = (document.title === originalTitle) ? alertTitle : originalTitle;
-            }, 1000); // 1 saniyede bir değişir
-        });
-
-        window.addEventListener("focus", () => {
-            // Sekmeye dönünce durur
-            clearInterval(titleInterval);
-            document.title = originalTitle;
+        document.addEventListener("visibilitychange", () => {
+            if (document.hidden) {
+                // SADECE kullanıcı başka bir TAB'a geçtiğinde çalışır
+                titleInterval = setInterval(() => {
+                    document.title = (document.title === originalTitle) ? alertTitle : originalTitle;
+                }, 1000);
+            } else {
+                // Kullanıcı sizin TAB'ınıza geri döndüğünde durur
+                clearInterval(titleInterval);
+                document.title = originalTitle;
+            }
         });
     </script>
 
