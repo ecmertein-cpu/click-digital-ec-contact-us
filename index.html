@@ -61,7 +61,6 @@
         .form-container { position: absolute; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%; }
         iframe { width: 100%; height: 100%; border: none; display: block; }
 
-        /* Exit Intent Popup */
         #exitPopup {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background: rgba(0,0,0,0.85); z-index: 10000; justify-content: center; align-items: center;
@@ -71,38 +70,4 @@
             max-width: 400px; position: relative; border: 4px solid #2563eb;
         }
         .popup-close { position: absolute; top: 15px; right: 20px; cursor: pointer; font-size: 28px; color: #9ca3af; }
-        .popup-btn { background: #2563eb; color: white; border: none; padding: 14px 30px; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 20px; }
-    </style>
-</head>
-<body>
-
-    <div class="form-container">
-        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSeloXzqJaOk4N-OFbNr_pAT_qzh1pmYEFDQ0rqK8M6c1ZQ45Q/viewform?embedded=true">Loading...</iframe>
-    </div>
-
-    <div id="exitPopup">
-        <div class="popup-content">
-            <span class="popup-close" onclick="closePopup()">&times;</span>
-            <h2>Wait! Don't Fall Behind 🚀</h2>
-            <p>Your competitors are already optimizing their digital workflow. Don't let them stay ahead. Fill out the form now!</p>
-            <button class="popup-btn" onclick="closePopup()">I'm Ready to Lead</button>
-        </div>
-    </div>
-
-    <script>
-        // Exit Intent Logic
-        let popupShown = false;
-        
-        document.addEventListener("mouseout", function(e) {
-            if (!e.relatedTarget && !e.toElement && !popupShown) {
-                document.getElementById("exitPopup").style.display = "flex";
-                popupShown = true;
-            }
-        });
-
-        function closePopup() {
-            document.getElementById("exitPopup").style.display = "none";
-        }
-    </script>
-</body>
-</html>
+        .popup-btn { background:
