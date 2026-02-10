@@ -5,11 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Click Digital EC - Request a Quote</title>
     
-   <link rel="icon" type="image/png" href="./logo.png?v=100">
+    <link rel="icon" type="image/png" href="./logo.png?v=100">
     <link rel="shortcut icon" type="image/png" href="./logo.png?v=15">
     <link rel="apple-touch-icon" href="./logo.png?v=15">
     <meta name="msapplication-TileImage" content="./logo.png?v=15">
 
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '942693023166711');
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=942693023166711&ev=PageView&noscript=1"
+    /></noscript>
     <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "6502aeafc8ac4c04a1fc215f2fdd1065"}'></script>
 
     <script type="text/javascript">
@@ -31,12 +46,10 @@
 
         document.addEventListener("visibilitychange", () => {
             if (document.hidden) {
-                // SADECE kullanıcı başka bir TAB'a geçtiğinde çalışır
                 titleInterval = setInterval(() => {
                     document.title = (document.title === originalTitle) ? alertTitle : originalTitle;
                 }, 1000);
             } else {
-                // Kullanıcı sizin TAB'ınıza geri döndüğünde durur
                 clearInterval(titleInterval);
                 document.title = originalTitle;
             }
@@ -77,10 +90,9 @@
     </div>
 
     <script>
-        // Daha Hassas Exit Intent
+        // Exit Intent Logic
         let popupShown = false;
         
-        // Kullanıcı fareyi sayfanın dışına (yukarı) doğru hızla çıkarırsa
         document.addEventListener("mouseout", function(e) {
             if (!e.relatedTarget && !e.toElement && !popupShown) {
                 document.getElementById("exitPopup").style.display = "flex";
