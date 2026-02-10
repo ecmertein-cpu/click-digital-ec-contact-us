@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Click Digital EC - Request a Quote</title>
     
+    <meta name="facebook-domain-verification" content="13jnavu24gk8lwt0yp7cgre43e5bwm" />
+
     <link rel="icon" type="image/png" href="./logo.png?v=100">
     <link rel="shortcut icon" type="image/png" href="./logo.png?v=15">
     <link rel="apple-touch-icon" href="./logo.png?v=15">
@@ -142,7 +144,6 @@
         let popupShown = false;
         
         document.addEventListener("mouseout", function(e) {
-            // Check if the mouse actually left the window top
             if (!e.relatedTarget && e.clientY < 10 && !popupShown) {
                 document.getElementById("exitPopup").style.display = "flex";
                 popupShown = true;
