@@ -65,7 +65,7 @@
             padding: 0; 
             min-height: 100%; 
             width: 100%; 
-            background-color: #ffffff; 
+            background-color: #f3f4f6; /* Hafif gri arka plan formu öne çıkarır */
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
         }
         
@@ -74,7 +74,7 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            padding: 20px;
+            padding: 40px 20px;
             box-sizing: border-box;
         }
 
@@ -85,19 +85,18 @@
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             text-align: center;
-            overflow: hidden; /* Görselin köşelerini yuvarlamak için */
+            overflow: hidden; /* Görselin üst köşelerini yuvarlar */
         }
 
-        /* Banner Görseli İçin Yeni Stil */
+        /* Banner Görseli Alanı */
         .brand-banner {
             width: 100%;
             height: auto;
             display: block;
-            margin-bottom: 20px;
         }
 
         .form-padding {
-            padding: 0 40px 40px 40px;
+            padding: 30px 40px 40px 40px;
         }
 
         h2 { color: #2563eb; margin-bottom: 25px; font-size: 28px; }
@@ -183,7 +182,7 @@
 
     <div class="main-wrapper">
         <div class="contact-container">
-            <img src="./google form page.jpg" alt="Click Digital EC" class="brand-banner">
+            <img src="./banner.png" alt="Click Digital EC" class="brand-banner" onerror="this.style.display='none'">
 
             <div class="form-padding">
                 <h2>Request a Quote</h2>
