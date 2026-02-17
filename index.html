@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Click Digital EC - Request a Quote</title>
     
-    <script src="https://www.google.com/recaptcha/aaapi.js?render=6LcIDW8sAAAAAHCmRsmjAF6bwKT2yyopZGGajAjB"></script>
+    <script src="https://www.google.com/recaptcha/api.js?render=6LcIDW8sAAAAAHCmRsmjAF6bwKT2yyopZGGajAjB"></script>
+    
     <meta name="facebook-domain-verification" content="13jnavu24gk8lwt0yp7cgre43e5bwm" />
     <link rel="icon" type="image/png" href="./logo.png?v=100">
 
@@ -78,48 +79,51 @@
         </div>
     </div>
 
-    <script src="https://www.google.com/recaptcha/api.js?render=6LcIDW8sAAAAAHCmRsmjAF6bwKT2yyopZGGajAjB"></script>
-
-<script>
-    // FINAL CONFIGURATION
-    const apiEndpoint = 'https://script.google.com/macros/s/AKfycbwwnapZNbvpFfTW5ymrUGSOb3zl-f33_9eDq7MEnI3U797C23V_gB-Hj-90z3C7fS7C/exec';
-    const captchaSiteKey = '6LcIDW8sAAAAAHCmRsmjAF6bwKT2yyopZGGajAjB';
-    
-    const contactForm = document.getElementById('lead-form');
-    const submitButton = document.getElementById('submitBtn');
-
-    contactForm.addEventListener("submit", event => {
-        event.preventDefault();
+    <script>
+        // CONFIGURATION
+        const apiEndpoint = 'https://script.google.com/macros/s/AKfycbwwnapZNbvpFfTW5ymrUGSOb3zl-f33_9eDq7MEnI3U797C23V_gB-Hj-90z3C7fS7C/exec';
+        const captchaSiteKey = '6LcIDW8sAAAAAHCmRsmjAF6bwKT2yyopZGGajAjB';
         
-        // Security Check: Ensure grecaptcha is loaded
-        if (typeof grecaptcha === 'undefined') {
-            alert("Security library not loaded. Please refresh the page.");
-            return;
-        }
+        const contactForm = document.getElementById('lead-form');
+        const submitButton = document.getElementById('submitBtn');
 
-        submitButton.disabled = true;
-        submitButton.innerText = "Verifying...";
+        contactForm.addEventListener("submit", event => {
+            event.preventDefault();
 
-        grecaptcha.ready(() => {
-            grecaptcha.execute(captchaSiteKey, {action: 'submit'}).then(token => {
-                const submissionData = new FormData(contactForm);
-                submissionData.append('g-recaptcha-response', token);
+            // Security Check
+            if (typeof grecaptcha === 'undefined') {
+                alert("Security library not loaded. Please refresh the page.");
+                return;
+            }
 
-                fetch(apiEndpoint, { 
-                    method: 'POST', 
-                    body: submissionData 
-                })
-                .then(response => {
-                    contactForm.style.display = 'none';
-                    document.getElementById('successMessage').style.display = 'block';
-                })
-                .catch(error => {
-                    console.error('Submission Error:', error);
-                    alert("Submission failed. Please try again.");
-                    submitButton.disabled = false;
-                    submitButton.innerText = "Send Inquiry";
+            submitButton.disabled = true;
+            submitButton.innerText = "Verifying...";
+
+            grecaptcha.ready(() => {
+                grecaptcha.execute(captchaSiteKey, {action: 'submit'}).then(token => {
+                    const submissionData = new FormData(contactForm);
+                    submissionData.append('g-recaptcha-response', token);
+
+                    fetch(apiEndpoint, { 
+                        method: 'POST', 
+                        body: submissionData 
+                    })
+                    .then(response => {
+                        fbq('track', 'Lead');
+                        contactForm.style.display = 'none';
+                        document.getElementById('successMessage').style.display = 'block';
+                    })
+                    .catch(error => {
+                        console.error('Submission Error:', error);
+                        alert("Submission failed. Please try again.");
+                        submitButton.disabled = false;
+                        submitButton.innerText = "Send Inquiry";
+                    });
                 });
             });
         });
-    });
-</script>
+
+        function closePopup() { document.getElementById("exitPopup").style.display = "none"; }
+    </script>
+</body>
+</html>
