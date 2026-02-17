@@ -255,5 +255,29 @@
             document.getElementById("exitPopup").style.display = "none";
         }
     </script>
+    // REPLACE THESE WITH YOUR KEYS
+const scriptURL = 'https://script.google.com/macros/s/AKfycbzCehB7PCrWUAD6f7Dr7BPnXsLjQzQswMKxjuzTlQU1XZ1Dw3KuSBlrYKDLyC__blU/exec';
+const siteKey = '6LcIDW8sAAAAAHCmRsmjAF6bwKT2yyopZGGajAjB';
+
+const form = document.forms['google-sheet'];
+
+form.addEventListener('submit', e => {
+  e.preventDefault();
+  
+  grecaptcha.ready(function() {
+    grecaptcha.execute(siteKey, {action: 'submit'}).then(function(token) {
+      
+      let formData = new FormData(form);
+      formData.append('g-recaptcha-response', token);
+
+      fetch(scriptURL, { method: 'POST', body: formData})
+        .then(response => {
+           alert("Form successfully submitted!");
+           form.reset();
+        })
+        .catch(error => console.error('Error!', error.message));
+    });
+  });
+});
 </body>
 </html>
