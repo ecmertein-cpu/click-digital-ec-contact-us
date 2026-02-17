@@ -52,7 +52,6 @@
     </script>
 
     <style>
-        /* Senin eski stil kodların */
         body, html { margin: 0; padding: 0; min-height: 100%; width: 100%; background-color: #f3f4f6; font-family: 'Segoe UI', sans-serif; }
         .main-wrapper { display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; box-sizing: border-box; }
         .contact-container { width: 100%; max-width: 500px; background: #fff; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; overflow: hidden; }
@@ -60,11 +59,15 @@
         .form-padding { padding: 30px 40px; }
         h2 { color: #2563eb; margin-bottom: 25px; }
         input, textarea { width: 100%; padding: 14px; margin-bottom: 20px; border: 1px solid #e2e8f0; border-radius: 10px; box-sizing: border-box; }
-        #submitBtn { width: 100%; padding: 16px; background: #2563eb; color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; }
+        #submitBtn { width: 100%; padding: 16px; background: #2563eb; color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; transition: background 0.3s; }
+        #submitBtn:disabled { background: #94a3b8; }
         #successMessage { display: none; background: #f0fdf4; color: #166534; padding: 20px; border-radius: 10px; margin-top: 20px; font-weight: bold; }
         #exitPopup { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 10000; justify-content: center; align-items: center; }
         .popup-content { background: #fff; padding: 40px; border-radius: 20px; text-align: center; max-width: 400px; position: relative; border: 4px solid #2563eb; }
         .popup-close { position: absolute; top: 15px; right: 20px; cursor: pointer; font-size: 28px; color: #9ca3af; }
+        
+        /* reCAPTCHA Logo Position - Left Side */
+        .grecaptcha-badge { left: 4px !important; }
     </style>
 </head>
 <body>
@@ -91,20 +94,19 @@
             <span class="popup-close" onclick="closePopup()">&times;</span>
             <h2>Wait! Don't Fall Behind 🚀</h2>
             <p>Your competitors are already optimizing their digital workflow.</p>
-            <button style="background:#2563eb; color:white; padding:10px; border-radius:5px; cursor:pointer;" onclick="closePopup()">I'm Ready to Lead</button>
+            <button style="background:#2563eb; color:white; padding:10px; border-radius:5px; border:none; cursor:pointer;" onclick="closePopup()">I'm Ready to Lead</button>
         </div>
     </div>
 
     <script>
-        // Apps Script ve reCAPTCHA Ayarları
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbzCehB7PCrWUAD6f7Dr7BPnXsLjQzQswMKxjuzTlQU1XZ1Dw3KuSBlrYKDLyC__blU/exec';
+        // UPDATE THIS URL AFTER YOUR NEW DEPLOYMENT (MUST BE "ANYONE" ACCESS)
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbwwnapZNbvpFfTW5ymrUGSOb3zl-f33_9eDq7MEnI3U797C23V_gB-Hj-90z3C7fS7C/exec';
         const siteKey = '6LcIDW8sAAAAAHCmRsmjAF6bwKT2yyopZGGajAjB';
         
         const form = document.getElementById('quote-form');
         const submitBtn = document.getElementById('submitBtn');
         const successMsg = document.getElementById('successMessage');
 
-        // Form Gönderme İşlemi
         form.addEventListener("submit", e => {
             e.preventDefault();
             submitBtn.disabled = true;
@@ -115,22 +117,28 @@
                     let formData = new FormData(form);
                     formData.append('g-recaptcha-response', token);
 
-                    fetch(scriptURL, { method: 'POST', body: formData })
-                    .then(response => {
-                        fbq('track', 'Lead'); // Facebook Pixel
+                    // Fetch request with 'no-cors' mode to prevent redirection issues
+                    fetch(scriptURL, { 
+                        method: 'POST', 
+                        body: formData,
+                        mode: 'no-cors' 
+                    })
+                    .then(() => {
+                        fbq('track', 'Lead');
                         form.style.display = 'none';
                         successMsg.style.display = 'block';
                     })
                     .catch(error => {
-                        alert("Error! Please try again.");
+                        console.error('Error!', error.message);
+                        alert("Something went wrong. Please check your connection.");
                         submitBtn.disabled = false;
-                        submitBtn.innerText = "Send";
+                        submitBtn.innerText = "Send to Click Digital";
                     });
                 });
             });
         });
 
-        // Exit Popup Mantığı
+        // Exit Popup Trigger
         let popupShown = false;
         document.addEventListener("mouseout", function(e) {
             if (!e.relatedTarget && e.clientY < 10 && !popupShown) {
