@@ -6,19 +6,64 @@
     <title>Click Digital EC - Request a Quote</title>
     
     <script src="https://www.google.com/recaptcha/api.js?render=6LcIDW8sAAAAAHCmRsmjAF6bwKT2yyopZGGajAjB"></script>
-    
-    <link rel="icon" type="image/png" href="./logo.png?v=100">
+
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '942693023166711');
+    fbq('track', 'PageView');
+    </script>
+
+    <script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/694e1ff161a703197b5aac7a/1jdciphvt';
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);
+    })();
+    </script>
+
+    <script>
+        let originalTitle = document.title;
+        let alertTitle = "Don't forget us! 🚀";
+        let titleInterval = null;
+        document.addEventListener("visibilitychange", () => {
+            if (document.hidden) {
+                titleInterval = setInterval(() => {
+                    document.title = (document.title === originalTitle) ? alertTitle : originalTitle;
+                }, 1000);
+            } else {
+                clearInterval(titleInterval);
+                document.title = originalTitle;
+            }
+        });
+    </script>
 
     <style>
-        body, html { margin: 0; padding: 0; min-height: 100%; width: 100%; background-color: #f3f4f6; font-family: sans-serif; }
+        body, html { margin: 0; padding: 0; min-height: 100%; width: 100%; background-color: #f3f4f6; font-family: 'Segoe UI', sans-serif; }
         .main-wrapper { display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; box-sizing: border-box; }
         .contact-container { width: 100%; max-width: 500px; background: #fff; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; overflow: hidden; }
-        .brand-banner { width: 100%; height: auto; display: block; }
+        .brand-banner { width: 100%; height: auto; display: block; background: #2563eb; color: white; padding: 10px; font-weight: bold; }
         .form-padding { padding: 30px 40px; }
         h2 { color: #2563eb; margin-bottom: 25px; }
         input, textarea { width: 100%; padding: 14px; margin-bottom: 20px; border: 1px solid #e2e8f0; border-radius: 10px; box-sizing: border-box; }
-        #submitBtn { width: 100%; padding: 16px; background: #2563eb; color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; }
+        #submitBtn { width: 100%; padding: 16px; background: #2563eb; color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        #submitBtn:disabled { background: #94a3b8; }
         #successMessage { display: none; background: #f0fdf4; color: #166534; padding: 20px; border-radius: 10px; margin-top: 20px; font-weight: bold; }
+        
+        /* Exit Intent Popup Styles */
+        #exitPopup { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 10000; justify-content: center; align-items: center; }
+        .popup-content { background: #fff; padding: 40px; border-radius: 20px; text-align: center; max-width: 400px; position: relative; border: 4px solid #2563eb; }
+        .close-btn { position: absolute; top: 15px; right: 20px; cursor: pointer; font-size: 24px; font-weight: bold; color: #64748b; }
         .grecaptcha-badge { left: 4px !important; }
     </style>
 </head>
@@ -26,7 +71,7 @@
 
     <div class="main-wrapper">
         <div class="contact-container">
-            <img src="./banner.png" alt="Banner" class="brand-banner">
+            <div class="brand-banner">CLICK DIGITAL EC</div>
             <div class="form-padding">
                 <h2>Request a Quote</h2>
                 <form id="lead-form">
@@ -41,22 +86,27 @@
         </div>
     </div>
 
+    <div id="exitPopup">
+        <div class="popup-content">
+            <span class="close-btn" onclick="closePopup()">&times;</span>
+            <h2>Wait! Don't Miss Out 🚀</h2>
+            <p>Your competitors are scaling their business with AI. Are you ready to lead?</p>
+            <button style="background:#2563eb; color:white; padding:12px 24px; border:none; border-radius:8px; cursor:pointer; font-weight:bold;" onclick="closePopup()">I'm Ready</button>
+        </div>
+    </div>
+
     <script>
-        // PASTE YOUR NEW WEB APP URL HERE
+        // CONFIGURATION: Replace this URL with your actual Google Script Web App URL
         const apiEndpoint = 'https://script.google.com/macros/s/AKfycbwd1zB8pUjpeLDUfhq02nzdHKUqOqwvAIMahld-VoSzn3H4HxZ_pmmeNAZAanP1MrJO/exec';
         const captchaSiteKey = '6LcIDW8sAAAAAHCmRsmjAF6bwKT2yyopZGGajAjB';
         
         const contactForm = document.getElementById('lead-form');
         const submitButton = document.getElementById('submitBtn');
+        const successNotify = document.getElementById('successMessage');
 
+        // Form Submission Logic
         contactForm.addEventListener("submit", event => {
             event.preventDefault();
-            
-            if (typeof grecaptcha === 'undefined') {
-                alert("Security library is loading. Please wait a few seconds.");
-                return;
-            }
-
             submitButton.disabled = true;
             submitButton.innerText = "Verifying...";
 
@@ -70,18 +120,32 @@
                         body: submissionData 
                     })
                     .then(response => {
+                        fbq('track', 'Lead'); // Facebook Lead Event
                         contactForm.style.display = 'none';
-                        document.getElementById('successMessage').style.display = 'block';
+                        successNotify.style.display = 'block';
                     })
                     .catch(error => {
-                        console.error('Submission Error:', error);
-                        alert("Submission failed. Please check your internet or script permissions.");
+                        console.error('Error:', error);
+                        alert("Submission failed. Please check your connection.");
                         submitButton.disabled = false;
                         submitButton.innerText = "Send Inquiry";
                     });
                 });
             });
         });
+
+        // Exit Intent Logic
+        let isPopupShown = false;
+        document.addEventListener("mouseout", e => {
+            if (!e.relatedTarget && e.clientY < 10 && !isPopupShown) {
+                document.getElementById("exitPopup").style.display = "flex";
+                isPopupShown = true;
+            }
+        });
+
+        function closePopup() { 
+            document.getElementById("exitPopup").style.display = "none"; 
+        }
     </script>
 </body>
 </html>
