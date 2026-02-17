@@ -78,54 +78,48 @@
         </div>
     </div>
 
-    <script>
-        // CONFIGURATION: Replace with your actual Web App URL after deployment
-        const apiEndpoint = 'https://script.google.com/macros/s/AKfycbzh2OqKrSZatb1VZm9CnKN6Phb9-IpqZclPmtld-I236GA27xsS-iMfyWjJrKZRcvL0/exec';
-        const captchaSiteKey = '6LcIDW8sAAAAAHCmRsmjAF6bwKT2yyopZGGajAjB';
+    <script src="https://www.google.com/recaptcha/api.js?render=6LcIDW8sAAAAAHCmRsmjAF6bwKT2yyopZGGajAjB"></script>
+
+<script>
+    // FINAL CONFIGURATION
+    const apiEndpoint = 'https://script.google.com/macros/s/AKfycbwwnapZNbvpFfTW5ymrUGSOb3zl-f33_9eDq7MEnI3U797C23V_gB-Hj-90z3C7fS7C/exec';
+    const captchaSiteKey = '6LcIDW8sAAAAAHCmRsmjAF6bwKT2yyopZGGajAjB';
+    
+    const contactForm = document.getElementById('lead-form');
+    const submitButton = document.getElementById('submitBtn');
+
+    contactForm.addEventListener("submit", event => {
+        event.preventDefault();
         
-        const contactForm = document.getElementById('lead-form');
-        const submitButton = document.getElementById('submitBtn');
-        const successNotify = document.getElementById('successMessage');
+        // Security Check: Ensure grecaptcha is loaded
+        if (typeof grecaptcha === 'undefined') {
+            alert("Security library not loaded. Please refresh the page.");
+            return;
+        }
 
-        contactForm.addEventListener("submit", event => {
-            event.preventDefault();
-            submitButton.disabled = true;
-            submitButton.innerText = "Verifying Security...";
+        submitButton.disabled = true;
+        submitButton.innerText = "Verifying...";
 
-            grecaptcha.ready(() => {
-                grecaptcha.execute(captchaSiteKey, {action: 'submit'}).then(token => {
-                    const submissionData = new FormData(contactForm);
-                    submissionData.append('g-recaptcha-response', token);
+        grecaptcha.ready(() => {
+            grecaptcha.execute(captchaSiteKey, {action: 'submit'}).then(token => {
+                const submissionData = new FormData(contactForm);
+                submissionData.append('g-recaptcha-response', token);
 
-                    fetch(apiEndpoint, { 
-                        method: 'POST', 
-                        body: submissionData 
-                    })
-                    .then(response => {
-                        if (!response.ok) throw new Error('API communication failed.');
-                        fbq('track', 'Lead');
-                        contactForm.style.display = 'none';
-                        successNotify.style.display = 'block';
-                    })
-                    .catch(error => {
-                        console.error('Submission Error:', error);
-                        alert("Submission failed. Please check your connection.");
-                        submitButton.disabled = false;
-                        submitButton.innerText = "Send Inquiry";
-                    });
+                fetch(apiEndpoint, { 
+                    method: 'POST', 
+                    body: submissionData 
+                })
+                .then(response => {
+                    contactForm.style.display = 'none';
+                    document.getElementById('successMessage').style.display = 'block';
+                })
+                .catch(error => {
+                    console.error('Submission Error:', error);
+                    alert("Submission failed. Please try again.");
+                    submitButton.disabled = false;
+                    submitButton.innerText = "Send Inquiry";
                 });
             });
         });
-
-        // Exit Intent Logic
-        let isPopupActive = false;
-        document.addEventListener("mouseout", e => {
-            if (!e.relatedTarget && e.clientY < 10 && !isPopupActive) {
-                document.getElementById("exitPopup").style.display = "flex";
-                isPopupActive = true;
-            }
-        });
-        function closePopup() { document.getElementById("exitPopup").style.display = "none"; }
-    </script>
-</body>
-</html>
+    });
+</script>
