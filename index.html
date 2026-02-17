@@ -6,7 +6,6 @@
     <title>Click Digital EC - Request a Quote</title>
     
     <script src="https://www.google.com/recaptcha/api.js?render=6LcIDW8sAAAAAHCmRsmjAF6bwKT2yyopZGGajAjB"></script>
-
     <meta name="facebook-domain-verification" content="13jnavu24gk8lwt0yp7cgre43e5bwm" />
     <link rel="icon" type="image/png" href="./logo.png?v=100">
 
@@ -35,22 +34,6 @@
     })();
     </script>
 
-    <script>
-        let originalTitle = document.title;
-        let alertTitle = "Don't forget us! 🚀";
-        let titleInterval = null;
-        document.addEventListener("visibilitychange", () => {
-            if (document.hidden) {
-                titleInterval = setInterval(() => {
-                    document.title = (document.title === originalTitle) ? alertTitle : originalTitle;
-                }, 1000);
-            } else {
-                clearInterval(titleInterval);
-                document.title = originalTitle;
-            }
-        });
-    </script>
-
     <style>
         body, html { margin: 0; padding: 0; min-height: 100%; width: 100%; background-color: #f3f4f6; font-family: 'Segoe UI', sans-serif; }
         .main-wrapper { display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; box-sizing: border-box; }
@@ -59,14 +42,11 @@
         .form-padding { padding: 30px 40px; }
         h2 { color: #2563eb; margin-bottom: 25px; }
         input, textarea { width: 100%; padding: 14px; margin-bottom: 20px; border: 1px solid #e2e8f0; border-radius: 10px; box-sizing: border-box; }
-        #submitBtn { width: 100%; padding: 16px; background: #2563eb; color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; transition: background 0.3s; }
+        #submitBtn { width: 100%; padding: 16px; background: #2563eb; color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; }
         #submitBtn:disabled { background: #94a3b8; }
         #successMessage { display: none; background: #f0fdf4; color: #166534; padding: 20px; border-radius: 10px; margin-top: 20px; font-weight: bold; }
         #exitPopup { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 10000; justify-content: center; align-items: center; }
         .popup-content { background: #fff; padding: 40px; border-radius: 20px; text-align: center; max-width: 400px; position: relative; border: 4px solid #2563eb; }
-        .popup-close { position: absolute; top: 15px; right: 20px; cursor: pointer; font-size: 28px; color: #9ca3af; }
-        
-        /* reCAPTCHA Logo Position - Left Side */
         .grecaptcha-badge { left: 4px !important; }
     </style>
 </head>
@@ -74,76 +54,75 @@
 
     <div class="main-wrapper">
         <div class="contact-container">
-            <img src="./banner.png" alt="Click Digital EC" class="brand-banner">
+            <img src="./banner.png" alt="Click Digital EC Banner" class="brand-banner">
             <div class="form-padding">
                 <h2>Request a Quote</h2>
-                <form id="quote-form">
+                <form id="lead-form">
                     <input type="text" name="Name" placeholder="Full Name" required>
                     <input type="email" name="Email" placeholder="Email Address" required>
                     <input type="tel" name="Phone" placeholder="Phone Number" required>
                     <textarea name="Message" placeholder="Project Details..." rows="4" required></textarea>
-                    <button type="submit" id="submitBtn">Send to Click Digital</button>
+                    <button type="submit" id="submitBtn">Send Inquiry</button>
                 </form>
-                <div id="successMessage">🚀 Success! We will contact you shortly.</div>
+                <div id="successMessage">🚀 Success! Our team will contact you shortly.</div>
             </div>
         </div>
     </div>
 
     <div id="exitPopup">
         <div class="popup-content">
-            <span class="popup-close" onclick="closePopup()">&times;</span>
-            <h2>Wait! Don't Fall Behind 🚀</h2>
-            <p>Your competitors are already optimizing their digital workflow.</p>
-            <button style="background:#2563eb; color:white; padding:10px; border-radius:5px; border:none; cursor:pointer;" onclick="closePopup()">I'm Ready to Lead</button>
+            <span style="position:absolute; top:15px; right:20px; cursor:pointer;" onclick="closePopup()">&times;</span>
+            <h2>Wait! Lead Excellence Awaits 🚀</h2>
+            <p>Don't let your competition scale while you wait. Start your automation journey today.</p>
+            <button style="background:#2563eb; color:white; padding:12px 24px; border:none; border-radius:8px; cursor:pointer;" onclick="closePopup()">I'm Ready</button>
         </div>
     </div>
 
     <script>
-        // UPDATE THIS URL AFTER YOUR NEW DEPLOYMENT (MUST BE "ANYONE" ACCESS)
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbwwnapZNbvpFfTW5ymrUGSOb3zl-f33_9eDq7MEnI3U797C23V_gB-Hj-90z3C7fS7C/exec';
-        const siteKey = '6LcIDW8sAAAAAHCmRsmjAF6bwKT2yyopZGGajAjB';
+        // CONFIGURATION: Replace with your actual Web App URL after deployment
+        const apiEndpoint = 'REPLACE_WITH_YOUR_NEW_DEPLOYMENT_URL';
+        const captchaSiteKey = '6LcIDW8sAAAAAHCmRsmjAF6bwKT2yyopZGGajAjB';
         
-        const form = document.getElementById('quote-form');
-        const submitBtn = document.getElementById('submitBtn');
-        const successMsg = document.getElementById('successMessage');
+        const contactForm = document.getElementById('lead-form');
+        const submitButton = document.getElementById('submitBtn');
+        const successNotify = document.getElementById('successMessage');
 
-        form.addEventListener("submit", e => {
-            e.preventDefault();
-            submitBtn.disabled = true;
-            submitBtn.innerText = "Verifying...";
+        contactForm.addEventListener("submit", event => {
+            event.preventDefault();
+            submitButton.disabled = true;
+            submitButton.innerText = "Verifying Security...";
 
-            grecaptcha.ready(function() {
-                grecaptcha.execute(siteKey, {action: 'submit'}).then(function(token) {
-                    let formData = new FormData(form);
-                    formData.append('g-recaptcha-response', token);
+            grecaptcha.ready(() => {
+                grecaptcha.execute(captchaSiteKey, {action: 'submit'}).then(token => {
+                    const submissionData = new FormData(contactForm);
+                    submissionData.append('g-recaptcha-response', token);
 
-                    // Fetch request with 'no-cors' mode to prevent redirection issues
-                    fetch(scriptURL, { 
+                    fetch(apiEndpoint, { 
                         method: 'POST', 
-                        body: formData,
-                        mode: 'no-cors' 
+                        body: submissionData 
                     })
-                    .then(() => {
+                    .then(response => {
+                        if (!response.ok) throw new Error('API communication failed.');
                         fbq('track', 'Lead');
-                        form.style.display = 'none';
-                        successMsg.style.display = 'block';
+                        contactForm.style.display = 'none';
+                        successNotify.style.display = 'block';
                     })
                     .catch(error => {
-                        console.error('Error!', error.message);
-                        alert("Something went wrong. Please check your connection.");
-                        submitBtn.disabled = false;
-                        submitBtn.innerText = "Send to Click Digital";
+                        console.error('Submission Error:', error);
+                        alert("Submission failed. Please check your connection.");
+                        submitButton.disabled = false;
+                        submitButton.innerText = "Send Inquiry";
                     });
                 });
             });
         });
 
-        // Exit Popup Trigger
-        let popupShown = false;
-        document.addEventListener("mouseout", function(e) {
-            if (!e.relatedTarget && e.clientY < 10 && !popupShown) {
+        // Exit Intent Logic
+        let isPopupActive = false;
+        document.addEventListener("mouseout", e => {
+            if (!e.relatedTarget && e.clientY < 10 && !isPopupActive) {
                 document.getElementById("exitPopup").style.display = "flex";
-                popupShown = true;
+                isPopupActive = true;
             }
         });
         function closePopup() { document.getElementById("exitPopup").style.display = "none"; }
