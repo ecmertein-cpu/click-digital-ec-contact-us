@@ -6,7 +6,6 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-XXXXXXX');</script>
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Click Digital EC - Request a Quote</title>
@@ -190,92 +189,3 @@
     <div class="main-wrapper">
         <div class="contact-container">
             <img src="./banner.png" alt="Click Digital EC" class="brand-banner" onerror="this.style.display='none'">
-
-            <div class="form-padding">
-                <h2>Request a Quote</h2>
-                
-                <form id="sheetdb-form" action="https://sheetdb.io/api/v1/17xp85ioy3fxm" method="POST">
-                    <input type="text" 
-                           name="data[Name]" 
-                           placeholder="Full Name" 
-                           pattern="[A-Za-zÇĞİÖŞÜçğiyöşü\s]{2,}" 
-                           title="Please enter letters only (at least 2 characters)." 
-                           required>
-
-                    <input type="email" 
-                           name="data[Email]" 
-                           placeholder="Email Address" 
-                           required>
-                    
-                    <input type="tel" 
-                           name="data[Phone]" 
-                           placeholder="Phone Number (e.g. +1...)" 
-                           pattern="[\+0-9\s\-]{7,}" 
-                           title="Please enter numbers and + sign only." 
-                           required>
-
-                    <textarea name="data[Message]" 
-                              placeholder="Briefly describe your project details..." 
-                              rows="4" 
-                              required></textarea>
-                    
-                    <button type="submit" id="submitBtn">Send to Click Digital</button>
-                </form>
-                
-                <div id="successMessage">
-                    🚀 Success! We've received your request. We will contact you shortly.
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="exitPopup">
-        <div class="popup-content">
-            <span class="popup-close" onclick="closePopup()">&times;</span>
-            <h2>Wait! Don't Fall Behind 🚀</h2>
-            <p>Your competitors are already optimizing their digital workflow. Don't let them stay ahead.</p>
-            <button class="popup-btn" onclick="closePopup()">I'm Ready to Lead</button>
-        </div>
-    </div>
-
-    <script>
-        var form = document.getElementById('sheetdb-form');
-        var successMsg = document.getElementById('successMessage');
-        var submitBtn = document.getElementById('submitBtn');
-
-        form.addEventListener("submit", e => {
-            e.preventDefault();
-            
-            fbq('track', 'Lead', {
-                content_name: 'Quote Request',
-                status: 'Sent'
-            });
-
-            if(window.dataLayer) {
-                dataLayer.push({'event': 'form_submission'});
-            }
-
-            submitBtn.disabled = true;
-            submitBtn.innerText = "Sending...";
-
-            fetch(form.action, {
-                method : "POST",
-                body: new FormData(document.getElementById("sheetdb-form")),
-            }).then(
-                response => response.json()
-            ).then((data) => {
-                form.style.display = 'none';
-                successMsg.style.display = 'block';
-            }).catch(err => {
-                alert("Something went wrong. Please try again.");
-                submitBtn.disabled = false;
-                submitBtn.innerText = "Send to Click Digital";
-            });
-        });
-
-        let popupShown = false;
-        document.addEventListener("mouseout", function(e) {
-            if (!e.relatedTarget && e.clientY < 10 && !popupShown) {
-                document.getElementById("exitPopup").style.display = "flex";
-                popupShown = true;
-            }
