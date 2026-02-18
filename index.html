@@ -6,6 +6,7 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-XXXXXXX');</script>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Click Digital EC - Request a Quote</title>
@@ -185,6 +186,7 @@
 <body>
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    
     <div class="main-wrapper">
         <div class="contact-container">
             <img src="./banner.png" alt="Click Digital EC" class="brand-banner" onerror="this.style.display='none'">
@@ -193,10 +195,29 @@
                 <h2>Request a Quote</h2>
                 
                 <form id="sheetdb-form" action="https://sheetdb.io/api/v1/17xp85ioy3fxm" method="POST">
-                    <input type="text" name="data[Name]" placeholder="Full Name" required>
-                    <input type="email" name="data[Email]" placeholder="Email Address" required>
-                    <input type="tel" name="data[Phone]" placeholder="Phone Number" required>
-                    <textarea name="data[Message]" placeholder="Project details..." rows="4" required></textarea>
+                    <input type="text" 
+                           name="data[Name]" 
+                           placeholder="Full Name" 
+                           pattern="[A-Za-zÇĞİÖŞÜçğiyöşü\s]{2,}" 
+                           title="Please enter letters only (at least 2 characters)." 
+                           required>
+
+                    <input type="email" 
+                           name="data[Email]" 
+                           placeholder="Email Address" 
+                           required>
+                    
+                    <input type="tel" 
+                           name="data[Phone]" 
+                           placeholder="Phone Number (e.g. +1...)" 
+                           pattern="[\+0-9\s\-]{7,}" 
+                           title="Please enter numbers and + sign only." 
+                           required>
+
+                    <textarea name="data[Message]" 
+                              placeholder="Briefly describe your project details..." 
+                              rows="4" 
+                              required></textarea>
                     
                     <button type="submit" id="submitBtn">Send to Click Digital</button>
                 </form>
@@ -258,11 +279,3 @@
                 document.getElementById("exitPopup").style.display = "flex";
                 popupShown = true;
             }
-        });
-
-        function closePopup() {
-            document.getElementById("exitPopup").style.display = "none";
-        }
-    </script>
-</body>
-</html>
