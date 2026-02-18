@@ -167,11 +167,13 @@
         var successMsg = document.getElementById('successMessage');
         var submitBtn = document.getElementById('submitBtn');
 
-        form.addEventListener("submit", e => {
-            e.preventDefault(); // Sayfanın siyah mesaja gitmesini engeller
+        form.addEventListener("submit", function(e) {
+            e.preventDefault(); // Siyah sayfa yönlendirmesini engeller
             
+            // Facebook Lead Tracking
             fbq('track', 'Lead', { content_name: 'Quote Request', status: 'Sent' });
 
+            // GTM Event
             if(window.dataLayer) {
                 dataLayer.push({'event': 'form_submission'});
             }
@@ -179,10 +181,34 @@
             submitBtn.disabled = true;
             submitBtn.innerText = "Sending...";
 
+            // Send data in background
             fetch(form.action, {
                 method : "POST",
                 body: new FormData(form),
-            }).then(response => response.json())
-            .then((data) => {
+            }).then(function(response) {
+                return response.json();
+            }).then(function(data) {
                 form.style.display = 'none';
-                successMsg.style.display
+                successMsg.style.display = 'block';
+            }).catch(function(err) {
+                alert("Something went wrong. Please try again.");
+                submitBtn.disabled = false;
+                submitBtn.innerText = "Send to Click Digital";
+            });
+        });
+
+        // Exit Popup Logic
+        let popupShown = false;
+        document.addEventListener("mouseout", function(e) {
+            if (!e.relatedTarget && e.clientY < 10 && !popupShown) {
+                document.getElementById("exitPopup").style.display = "flex";
+                popupShown = true;
+            }
+        });
+
+        function closePopup() {
+            document.getElementById("exitPopup").style.display = "none";
+        }
+    </script>
+</body>
+</html>
